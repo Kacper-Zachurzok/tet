@@ -1,5 +1,7 @@
 import { z } from "zod";
-import { permissionsSchema } from "../permissions";
+import permissionSchema, { type Permission } from "./permission";
+
+export const idSchema = z.string();
 
 export const emailSchema = z.string().email();
 
@@ -11,16 +13,19 @@ export const userLoginSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
 });
+export type UserLogin = z.infer<typeof userLoginSchema>;
 
 export const userRegisterSchema = z.object({
   email: emailSchema,
   name: nameSchema,
   password: passwordSchema,
 });
+export type UserRegister = z.infer<typeof userRegisterSchema>;
 
 export const userSchema = z.object({
+  id: idSchema,
   email: emailSchema,
   name: nameSchema,
-  password: passwordSchema,
-  permissions: permissionsSchema,
+  permissions: permissionSchema,
 });
+export type User = z.infer<typeof userSchema> & { permissions: Permission };

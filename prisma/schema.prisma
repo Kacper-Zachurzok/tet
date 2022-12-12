@@ -9,6 +9,14 @@ datasource db {
   relationMode = "prisma"
 }
 
+model Product {
+  slug String @id
+  title String @unique
+  description String @db.VarChar(3000)
+  players Int
+  image String @db.Text
+}
+
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())

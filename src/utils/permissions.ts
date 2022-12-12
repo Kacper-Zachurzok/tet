@@ -1,23 +1,30 @@
-import { z } from "zod";
+import type { Permission } from "./schemas/permission";
 
-export const permissionsSchema = z.number().int().positive();
-
-type PermissionFlagsBits = { [key: string]: number };
-
-const Permissions: PermissionFlagsBits = {
+const permissions = {
   AddProduct: 1 << 0,
   RemoveProduct: 1 << 1,
   EditProduct: 1 << 2,
 };
 
-const ManagePermissions: PermissionFlagsBits = {
+const managePermissions = {
   ManageProduct:
-    (Permissions.AddProduct || 0) |
-    (Permissions.RemoveProduct || 0) |
-    (Permissions.EditProduct || 0),
+    permissions.AddProduct |
+    permissions.RemoveProduct |
+    permissions.EditProduct,
+};
+
+export const hasPermissions: (
+  userPermissions: Permission,
+  permission: Permission
+) => boolean = (userPermissions, permission) => {
+  return (userPermissions & permission) == permission;
 };
 
 export default {
-  ...Permissions,
-  ...ManagePermissions,
-} as PermissionFlagsBits;
+  ...permissions,
+  ...managePermissions,
+} as {
+  [key in
+    | keyof typeof permissions
+    | keyof typeof managePermissions]: Permission;
+};

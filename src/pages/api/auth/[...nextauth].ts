@@ -39,7 +39,7 @@ export const authOptions: NextAuthOptions = {
           !bcrypt.compareSync(credentials.password, user.password)
         )
           throw new Error(
-            "User does not exists. Please make sure you insert the correct email and password."
+            "User does not exists. Please make sure you insert the correct email & password."
           );
 
         return user;

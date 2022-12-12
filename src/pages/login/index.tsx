@@ -8,13 +8,12 @@ import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { useRouter } from "next/router";
 import { NextURL } from "next/dist/server/web/next-url";
-import type { z } from "zod";
-import type { userLoginSchema } from "../../utils/schemas/user";
+import type { UserLogin } from "../../utils/schemas/user";
 
 const Home: NextPage = () => {
   const router = useRouter();
 
-  const [userForm, setUserForm] = useState<z.infer<typeof userLoginSchema>>({
+  const [userForm, setUserForm] = useState<UserLogin>({
     email: "",
     password: "",
   });

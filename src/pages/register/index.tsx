@@ -4,13 +4,12 @@ import { type FormEventHandler, useState } from "react";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { useRouter } from "next/router";
-import type { z } from "zod";
-import type { userRegisterSchema } from "../../utils/schemas/user";
+import type { UserRegister } from "../../utils/schemas/user";
 
 const Home: NextPage = () => {
   const router = useRouter();
 
-  const [userForm, setUserForm] = useState<z.infer<typeof userRegisterSchema>>({
+  const [userForm, setUserForm] = useState<UserRegister>({
     name: "",
     email: "",
     password: "",
