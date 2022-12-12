@@ -6,7 +6,6 @@ import type {
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 import type { Product } from "../../utils/schemas/product";
-import { env } from "../../env/server.mjs";
 import permissions, { hasPermissions } from "../../utils/permissions";
 import { Header } from "../../components/header";
 import { useModalContext } from "../../hooks/useModal";
@@ -15,14 +14,14 @@ import EditPlayers from "../../components/games/EditPlayers";
 import EditDescription from "../../components/games/EditDescription";
 import EditImage from "../../components/games/EditImage";
 import ImageFallback from "../../components/imageFallback";
+import absoluteUrl from "next-absolute-url";
 
 export const getServerSideProps: GetServerSideProps<{
   product?: Product;
 }> = async (context) => {
   const { productSlug } = context.query;
-  const response = await fetch(
-    `${env.NEXTAUTH_URL}/api/products/${productSlug}`
-  );
+  const { origin } = absoluteUrl(context.req);
+  const response = await fetch(`${origin}/api/products/${productSlug}`);
   if (!response.ok) return { redirect: { destination: "/" }, props: {} };
 
   const product: Product = await response.json();
