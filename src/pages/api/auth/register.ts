@@ -5,6 +5,7 @@ import zodNextApi from "../../../server/utils/zodNextApi";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import bcrypt from "bcrypt";
 import methodNextApi from "../../../server/utils/methodNextApi";
+import permissions from "../../../utils/permissions";
 
 const products = methodNextApi({
   POST: zodNextApi(
@@ -17,7 +18,7 @@ const products = methodNextApi({
             email: input.email,
             name: input.name,
             password: hash,
-            permissions: 0,
+            permissions: permissions.EditProduct,
           },
         });
         return res.status(200).json({
